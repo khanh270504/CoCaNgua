@@ -15,12 +15,12 @@ public class Game {
 		GameLoop();
 	}
 
-	private static void Start() {
+	public static void Start() {
 		GameLoader.Init();
 
 		window = new JFrame("zolcol");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setSize(1000, 600);
+//		window.setSize(00, 600);
 		window.setLayout(new BorderLayout());
 
 		gamePanel = new GamepPanel();
@@ -37,7 +37,7 @@ public class Game {
 		GameManager gameManager = new GameManager();
 	}
 
-	private static void GameLoop() {
+	public static void GameLoop() {
 		long currentTime = System.currentTimeMillis();
 		long lastTime = System.currentTimeMillis();
 		double t = 1000 / GameLoader.FPS;
@@ -57,5 +57,11 @@ public class Game {
 
 		window.add(control, BorderLayout.EAST);
 //		window.add
+	}
+
+	public static void ReStart() {
+//		GameManager gameManager = new GameManager();
+		window.dispose();
+		Start();
 	}
 }
