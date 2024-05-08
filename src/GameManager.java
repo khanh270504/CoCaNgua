@@ -1,219 +1,202 @@
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 public class GameManager {
-    public static GameManager instance;
+	public static GameManager instance;
 
-    public Player[] PlayerList;
-    public static int currentPlayer = 0;
+	Player[] PlayerList;
+	public static int currentPlayer = 0;
 
-    public List<Horse> HorseOnBoard;
+	public List<Horse> HorseOnBoard;
 
-    private Dice dice;
-    
-    public GameManager(){
-        instance = this;
+	private Dice dice;
 
-        Init();
+	public GameManager() {
+		instance = this;
 
-        PlayerList[0].horseList.get(0).Start();
-        PlayerList[0].horseList.get(0).Move(55);
-        PlayerList[0].horseList.get(1).Start();
-        PlayerList[0].horseList.get(1).Move(55 - 6);
-        PlayerList[0].horseList.get(2).Start();
-        PlayerList[0].horseList.get(2).Move(55 - 12);
-        PlayerList[0].horseList.get(3).Start();
-        PlayerList[0].horseList.get(3).Move(55 - 18);
-        
-        PlayerList[1].horseList.get(0).Start();
-        PlayerList[1].horseList.get(0).Move(55);
-//        PlayerList[1].horseList.get(3).Start();
-//        PlayerList[1].horseList.get(3).Move(55 - 6);
-//        PlayerList[2].horseList.get(0).Start();
-//        PlayerList[2].horseList.get(0).Move(55);
-//        PlayerList[3].horseList.get(0).Start();
-//        PlayerList[3].horseList.get(0).Move(55);
+		Init();
+//		PlayerList[0].horseList.get(0).Start();
+//		PlayerList[0].horseList.get(0).Move(55);
+//		PlayerList[0].horseList.get(1).Start();
+//		PlayerList[0].horseList.get(1).Move(55 - 6);
+//		PlayerList[0].horseList.get(2).Start();
+//		PlayerList[0].horseList.get(2).Move(55 - 12);
+//		PlayerList[0].horseList.get(3).Start();
+//		PlayerList[0].horseList.get(3).Move(55 - 18);
 
-    }
+//		PlayerList[1].horseList.get(0).Start();
+//		PlayerList[1].horseList.get(0).Move(55);
 
-    private void Init(){        
-        HorseOnBoard = new ArrayList<>();
-        InitPlayerList();
-        InitDice();
-    }
-    
-    private void InitDice(){
-        dice = new Dice();
-    }
+//		PlayerList[0].horseList.get(0).Start();
 
-    private void InitPlayerList(){
-        PlayerList = new Player[4];
-        for (int i = 0; i < 4; i++){
-            Player newPlayer = new Player(i);
-            PlayerList[i] = newPlayer;
-        }
-        currentPlayer = 0;
-    }
+//		PlayerList[1].horseList.get(0).Start();
 
-    public void HorseSelected(Horse horse){
-        if (dice.diceValue == 0 || dice.isPlaying){
-            return;
-        }
+	}
 
-        if (horse.team == PlayerList[currentPlayer].team){
-            if (horse.isOnBoard){
-                int CheckCanMove = CheckHorseCanMove(horse);
-                if (CheckCanMove != -1){
-                    currentPlayer += 1;
-                    if (currentPlayer == 4){
-                        currentPlayer = 0;
-                    }
-                    
-                    if (CheckCanMove == 1){
-                        horse.Move(dice.diceValue);
-                        if (CheckCurrentPlayerWin()) {       
-                        PanelControl.WinGame();
-                            
-                        	//Next();
-                        }
+	private void Init() {
+		HorseOnBoard = new ArrayList<>();
+		InitPlayerList();
+		InitDice();
+	}
 
-                    }
-                    else{
-                        KillHorse(Horse.IndexAfterMove(horse, dice.diceValue));
-                        horse.Move(dice.diceValue);
-                    }
+	private void InitDice() {
+		dice = new Dice();
+	}
 
-                    if (dice.diceValue == 6){
-                        currentPlayer -= 1;
-                    }
+	private void InitPlayerList() {
+		PlayerList = new Player[4];
+		for (int i = 0; i < 4; i++) {
+			Player newPlayer = new Player(i);
+			PlayerList[i] = newPlayer;
+		}
+		currentPlayer = 0;
+	}
 
-                    dice.diceValue = 0;
-                }
-            }
-            else {
-                if (CheckHorseCanStart(horse)){
-                    KillHorse(horse.team * 14);
-                    horse.Start();
-                    
-                    dice.diceValue = 0;
-                }
-            }
-        }
-    }
+	public void HorseSelected(Horse horse) {
+		if (dice.diceValue == 0 || dice.isPlaying) {
+			return;
+		}
 
-    public int CheckHorseCanMove(Horse _horse){
-        int canMove = 1;
-        for (int i = 0; i < HorseOnBoard.size(); i++){
-            if (HorseOnBoard.get(i).PositionIndex != _horse.PositionIndex) {
-            	if(HorseOnBoard.get(i).isWin) continue;
-                if ((Horse.IndexAfterMove(_horse, dice.diceValue) - HorseOnBoard.get(i).PositionIndex) > 0 &&
-                (Horse.IndexAfterMove(_horse, dice.diceValue) - HorseOnBoard.get(i).PositionIndex) <= 6){
-                    return -1;
-                }
-                if (HorseOnBoard.get(i).PositionIndex == Horse.IndexAfterMove(_horse, dice.diceValue)){
+		if (horse.team == PlayerList[currentPlayer].team) {
+			if (horse.isOnBoard) {
+				int CheckCanMove = CheckHorseCanMove(horse);
+				if (CheckCanMove != -1) {
+					currentPlayer += 1;
+					if (currentPlayer == 4) {
+						currentPlayer = 0;
+					}
 
-                    if (HorseOnBoard.get(i) == _horse || HorseOnBoard.get(i).team == _horse.team){
-                        return -1;
-                    }
-                    else{
-                        canMove = 2;
-                    }
-                }
-            }
+					if (CheckCanMove == 1) {
+						horse.Move(dice.diceValue);
+						if (CheckCurrentPlayerWin()) {
+							PanelControl.WinGame();
 
-            if (_horse.StepCount == 55){
-                return 1;
-            }
+							// Next();
+						}
 
-            if (_horse.StepCount + dice.diceValue > 55 && !_horse.isOnStable){
-                return -1;
-            }
+					} else {
+						KillHorse(Horse.IndexAfterMove(horse, dice.diceValue));
+						horse.Move(dice.diceValue);
+					}
 
-        }
-        return canMove;
-    }
+					if (dice.diceValue == 6) {
+						currentPlayer -= 1;
+					}
 
-    public void KillHorse(int horsePosIndex){
-        for (int i = 0; i < HorseOnBoard.size(); i++){
-            
+					dice.diceValue = 0;
+				}
+			} else {
+				if (CheckHorseCanStart(horse)) {
+					KillHorse(horse.team * 14);
+					horse.Start();
 
-            if (HorseOnBoard.get(i).PositionIndex == horsePosIndex){
-                HorseOnBoard.get(i).Die();
-                break;
-            }
-        }
-    }
+					dice.diceValue = 0;
+				}
+			}
+		}
+	}
 
-    public boolean CheckHorseCanStart(Horse _horse){
+	public int CheckHorseCanMove(Horse _horse) {
+		int canMove = 1;
+		for (int i = 0; i < HorseOnBoard.size(); i++) {
+			if (HorseOnBoard.get(i).PositionIndex != _horse.PositionIndex) {
+				if (HorseOnBoard.get(i).isWin)
+					continue;
+				if ((Horse.IndexAfterMove(_horse, dice.diceValue) - HorseOnBoard.get(i).PositionIndex) > 0
+						&& (Horse.IndexAfterMove(_horse, dice.diceValue) - HorseOnBoard.get(i).PositionIndex) <= 6) {
+					return -1;
+				}
+				if (HorseOnBoard.get(i).PositionIndex == Horse.IndexAfterMove(_horse, dice.diceValue)) {
+
+					if (HorseOnBoard.get(i) == _horse || HorseOnBoard.get(i).team == _horse.team) {
+						return -1;
+					} else {
+						canMove = 2;
+					}
+				}
+			}
+
+			if (_horse.StepCount == 55) {
+				return 1;
+			}
+
+			if (_horse.StepCount + dice.diceValue > 55 && !_horse.isOnStable) {
+				return -1;
+			}
+
+		}
+		return canMove;
+	}
+
+	public void KillHorse(int horsePosIndex) {
+		for (int i = 0; i < HorseOnBoard.size(); i++) {
+
+			if (HorseOnBoard.get(i).PositionIndex == horsePosIndex) {
+				HorseOnBoard.get(i).Die();
+				break;
+			}
+		}
+	}
+
+	public boolean CheckHorseCanStart(Horse _horse) {
 //    	System.out.println( PlayerList[currentPlayer].horseList.size());
-        if (dice.diceValue != 6){
-            return false;
-        }
+		if (dice.diceValue != 6) {
+			return false;
+		}
 
-        for (int i = 0; i < HorseOnBoard.size(); i++){
-            if (HorseOnBoard.get(i).PositionIndex == _horse.team * 14 && HorseOnBoard.get(i).team == _horse.team && HorseOnBoard.get(i) != _horse){
-                return false;
-            }
-        }
-        return true;
-    }
+		for (int i = 0; i < HorseOnBoard.size(); i++) {
+			if (HorseOnBoard.get(i).PositionIndex == _horse.team * 14 && HorseOnBoard.get(i).team == _horse.team
+					&& HorseOnBoard.get(i) != _horse) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-    public void CheckPlayerCanMove(){
-        boolean next = true;
-//        
-//        for (Iterator<Horse> iterator = PlayerList[currentPlayer].horseList.iterator(); iterator.hasNext();) {
-//            Horse horse = iterator.next();
-//            if (horse.isWin) {
-//                iterator.remove();
-//                if(PlayerList[currentPlayer].horseList.size() == 0 && dice.diceValue == 6) {
-//                	System.out.println("YOU WIN");
-//                	Next();
-//                }
-          for(Horse horse : PlayerList[currentPlayer].horseList) {
-        	  if(horse.isWin) continue;
-             else {
-                if (horse.isOnBoard){
-                    if(CheckHorseCanMove(horse) != -1 ){
-                        next = false;
-                    }
-                } else {
-                    if (CheckHorseCanStart(horse)){
-                        next = false;
-                    }
-                }
-            }
-        }
-        System.out.println(PlayerList[currentPlayer].horseList.size());
-        if (next){
-            Next();
-        } 
-        
-    }
+	public void CheckPlayerCanMove() {
+		boolean next = true;
+		for (Horse horse : PlayerList[currentPlayer].horseList) {
+			if (horse.isWin)
+				continue;
+			else {
+				if (horse.isOnBoard) {
+					if (CheckHorseCanMove(horse) != -1) {
+						next = false;
+					}
+				} else {
+					if (CheckHorseCanStart(horse)) {
+						next = false;
+					}
+				}
+			}
+		}
+//		System.out.println(PlayerList[currentPlayer].horseList.size());
+		if (next) {
+			Next();
+		}
 
-    public void Next(){
-        currentPlayer += 1;
-        if (dice.diceValue == 6) currentPlayer -= 1;
-        dice.diceValue = 0;
-        
-        
-        if (currentPlayer == 4){
-            currentPlayer = 0;
-        }
-        
-        if (CheckCurrentPlayerWin()) {
-        	if (currentPlayer == 4) {
-        		currentPlayer += 1;
-        	}
-        }
-        
-         System.out.println("next");
-    }
-    
-    public boolean CheckCurrentPlayerWin() {
-    	return PlayerList[currentPlayer].HorseWin == 4;
-    }
+	}
 
+	public void Next() {
+		currentPlayer += 1;
+		if (dice.diceValue == 6)
+			currentPlayer -= 1;
+		dice.diceValue = 0;
+
+		if (currentPlayer == 4) {
+			currentPlayer = 0;
+		}
+
+		if (CheckCurrentPlayerWin()) {
+			if (currentPlayer == 4) {
+				currentPlayer += 1;
+			}
+		}
+
+		System.out.println("next");
+	}
+
+	public boolean CheckCurrentPlayerWin() {
+		return PlayerList[currentPlayer].HorseWin == 4;
+	}
 }
