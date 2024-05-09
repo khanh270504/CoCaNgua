@@ -1,3 +1,5 @@
+package MainPackage;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
@@ -30,6 +32,7 @@ public class Dice extends JButton {
 				if (!isPlaying) {
 					PlayDice();
 					PanelControl.update();
+				
 
 				}
 			}
@@ -40,7 +43,7 @@ public class Dice extends JButton {
 
 	private void SetDiceValue(int value) {
 		setIcon(GameLoader.diceStatus[value - 1]);
-		diceValue = value;
+		diceValue = 6;
 	}
 
 	private int RandomDiceValue() {
@@ -61,7 +64,7 @@ public class Dice extends JButton {
 			public void actionPerformed(ActionEvent e) {
 				RandomDiceValue();
 				count += 0.5f;
-				if (count >= 3) {
+				if (count >= 5) {
 					count = 0;
 					isPlaying = false;
 					time.stop();

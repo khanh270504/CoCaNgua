@@ -1,3 +1,4 @@
+package MainPackage;
 public class vector2{
     public int x, y;
 

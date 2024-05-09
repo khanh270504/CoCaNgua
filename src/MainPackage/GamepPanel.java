@@ -1,3 +1,4 @@
+package MainPackage;
 import java.awt.Dimension;
 
 import javax.swing.ImageIcon;
@@ -17,6 +18,7 @@ public class GamepPanel extends JLayeredPane {
 	private void InitPanel() {
 		setLayout(null);
 		setBounds(0, 0, GameLoader.WIDTH, GameLoader.HEIGHT);
+//		setSize(GameLoader.WIDTH, GameLoader.HEIGHT);
 		setPreferredSize(new Dimension(GameLoader.WIDTH, GameLoader.HEIGHT));
 	}
 

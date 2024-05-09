@@ -1,3 +1,4 @@
+package MainPackage;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
+import database.Leaderboard;
+import database.UpdatePoints;
 public class PanelControl extends JPanel {
 	public static JLabel jLabel_turn;
 
@@ -30,6 +33,8 @@ public class PanelControl extends JPanel {
 	public JLabel jl_point4;
 	public static Font font = new Font("TimeNewRoman", Font.BOLD, 15);
 	public Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
+	
+
 
 	public PanelControl() {
 		jLabel_title = new JLabel("~~~~~LƯỢT CHƠI HIỆN TẠI~~~~~");
@@ -79,7 +84,8 @@ public class PanelControl extends JPanel {
 		gbc.weightx = 0.25;
 		gbc.weighty = 0.2;
 		jPanel2.add(jl_point1, gbc);
-
+		
+		
 		jl_player2 = new JLabel("Red's point: ");
 		jl_player2.setFont(font);
 //		jl_point2 = new JLabel("0");
@@ -95,6 +101,9 @@ public class PanelControl extends JPanel {
 		gbc.weighty = 0.2;
 		jPanel2.add(jl_point2, gbc);
 
+		
+			
+				
 		jl_player3 = new JLabel("Green's point: ");
 		jl_player3.setFont(font);
 		jl_point3 = new JLabel("0");
@@ -103,7 +112,7 @@ public class PanelControl extends JPanel {
 		gbc.weightx = 0.75;
 		gbc.weighty = 0.2;
 		jPanel2.add(jl_player3, gbc);
-		jl_point1 = new JLabel("0");
+		
 		gbc.gridx = 1; // Cột 0 trong hàng 1
 		gbc.gridy = 3; // Hàng 4
 		gbc.weightx = 0.25;
@@ -118,7 +127,6 @@ public class PanelControl extends JPanel {
 		gbc.weightx = 0.75;
 		gbc.weighty = 0.2;
 		jPanel2.add(jl_player4, gbc);
-		jl_point1 = new JLabel("0");
 		gbc.gridx = 1; // Cột 0 trong hàng 1
 		gbc.gridy = 4; // Hàng 5
 		gbc.weightx = 0.25;
@@ -143,7 +151,8 @@ public class PanelControl extends JPanel {
 		jPanel3.add(exit);
 		jPanel3.setBackground(Color.LIGHT_GRAY);
 		add(jPanel3, BorderLayout.SOUTH);
-
+		
+		UpdatePlayerWinpointDisplay();
 	}
 
 	public static void update() {
@@ -175,28 +184,45 @@ public class PanelControl extends JPanel {
 		}
 
 	}
+	
+	private void UpdatePlayerWinpointDisplay() {
+		//System.out.println(Leaderboard.GetPlayerWinPoint(3));
+		jl_point1.setText(Integer.toString(Leaderboard.GetPlayerWinPoint(1)));
+		jl_point2.setText(Integer.toString(Leaderboard.GetPlayerWinPoint(2)));
+		jl_point3.setText(Integer.toString(Leaderboard.GetPlayerWinPoint(3)));
+		jl_point4.setText(Integer.toString(Leaderboard.GetPlayerWinPoint(4)));
+	}
+	
+	
+	public void UpdatePlayerPoint(int PlayerWinID) {
+		UpdatePoints.updateWinPoints(PlayerWinID);
+		UpdatePlayerWinpointDisplay();
+	}
 
-	public static void WinGame() {
+	public void WinGame() {
 		ImageIcon youwin = new ImageIcon("resources/images/win.jpg");
-		if (GameManager.currentPlayer == 1) {
+		if (GameManager.currentPlayer == 0) {
 			JOptionPane.showMessageDialog(null, "Đội xanh dương thắng", "Nope", WIDTH, youwin);
-//			Game.ReStart();
-			System.exit(0);
+	//	Game.ReStart();
+	//		System.exit(0);
 		}
-		if (GameManager.currentPlayer == 2) {
+		if (GameManager.currentPlayer == 1) {
 			JOptionPane.showMessageDialog(null, "Đội đỏ thắng", "Nope", WIDTH, youwin);
 //			Game.ReStart();
-			System.exit(0);
+//			System.exit(0);
 		}
-		if (GameManager.currentPlayer == 3) {
+		if (GameManager.currentPlayer == 2) {
 			JOptionPane.showMessageDialog(null, "Đội xanh lá thắng", "Nope", WIDTH, youwin);
 //			Game.ReStart();
-			System.exit(0);
+//			System.exit(0);
 		}
-		if (GameManager.currentPlayer == 4) {
+		if (GameManager.currentPlayer == 3) {
 			JOptionPane.showMessageDialog(null, "Đội vàng thắng", "Nope", WIDTH, youwin);
 //			Game.ReStart();
-			System.exit(0);
+//			System.exit(0);
 		}
+		
+		UpdatePlayerPoint(GameManager.currentPlayer+1);
+		
 	}
 }
