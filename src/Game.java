@@ -18,7 +18,7 @@ public class Game {
 	public static void Start() {
 		GameLoader.Init();
 
-		window = new JFrame("zolcol");
+		window = new JFrame("Cờ Cá Ngựa");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		window.setSize(00, 600);
 		window.setLayout(new BorderLayout());
@@ -26,7 +26,7 @@ public class Game {
 		gamePanel = new GamepPanel();
 
 		window.add(gamePanel, BorderLayout.WEST);
-//		window.add(control, BorderLayout.EAST);
+		window.add(control, BorderLayout.EAST);
 
 		window.pack();
 		window.setBackground(Color.black);
@@ -48,19 +48,10 @@ public class Game {
 			if (deltaTime < t)
 				continue;
 			lastTime = currentTime;
-
-			Update();
 		}
 	}
 
-	public static void Update() {
-
-		window.add(control, BorderLayout.EAST);
-//		window.add
-	}
-
 	public static void ReStart() {
-//		GameManager gameManager = new GameManager();
 		window.dispose();
 		Start();
 	}

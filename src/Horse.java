@@ -5,113 +5,114 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+public class Horse extends JButton {
+	public int team;
+	public int id;
+	public vector2 Position;
+	public int PositionIndex;
 
-public class Horse extends JButton{
-    
-    public int team;
-    public int id;
-    public vector2 Position;
-    public int PositionIndex;
-    
-    public int StepCount = 0;
-    public boolean isOnStable = false;
-    public boolean isWin = false;
-    public boolean isOnBoard = false;
+	public int StepCount = 0;
+	public boolean isOnStable = false;
+	public boolean isWin = false;
+	public boolean isOnBoard = false;
 
-    public Horse(String imageURL, int _team, int _id){
-        Position = new vector2(0, 0);
-        team = _team;
-        id = _id;
-        PositionIndex = 0;
+	public Horse(String imageURL, int _team, int _id) {
+		Position = new vector2(0, 0);
+		team = _team;
+		id = _id;
+		PositionIndex = 0;
 
-        ImageIcon i = new ImageIcon(imageURL);
-        Image image = i.getImage();
-        Image scaledImage = image.getScaledInstance(GameLoader.HorseSize, GameLoader.HorseSize, Image.SCALE_SMOOTH);
-        setIcon(new ImageIcon(scaledImage));
+		ImageIcon i = new ImageIcon(imageURL);
+		Image image = i.getImage();
+		Image scaledImage = image.getScaledInstance(GameLoader.HorseSize, GameLoader.HorseSize, Image.SCALE_SMOOTH);
+		setIcon(new ImageIcon(scaledImage));
 
-        
-        setBorderPainted(false);
-        setFocusPainted(false);
-        setContentAreaFilled(false);
+		setBorderPainted(false);
+		setFocusPainted(false);
+		setContentAreaFilled(false);
 
-        Game.gamePanel.add(this, new Integer(1));
+		Game.gamePanel.add(this, new Integer(1));
 
-        GoHome();
+		GoHome();
 
-        this.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                OnClick();
-            }
-        });
-    }
+		this.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				OnClick();
+			}
+		});
+	}
 
-    public void OnClick(){
-        GameManager.instance.HorseSelected(this);
-    }
+	public void OnClick() {
+		GameManager.instance.HorseSelected(this);
+	}
 
-    public void setPosition(vector2 newPos){
-        Position = newPos;
-        setBounds(Position.x - GameLoader.HorseSize/2, Position.y - GameLoader.HorseSize/2, GameLoader.HorseSize, GameLoader.HorseSize);
-    }
+	public void setPosition(vector2 newPos) {
+		Position = newPos;
+		setBounds(Position.x - GameLoader.HorseSize / 2, Position.y - GameLoader.HorseSize / 2, GameLoader.HorseSize,
+				GameLoader.HorseSize);
+	}
 
-    public void Move(int step){
-        if (StepCount >= 55){
-        	if (step == 6) {
-        	   GoHome();
-        	   Game.gamePanel.remove(this);
+	public void Move(int step) {
+		if (StepCount >= 55) {
+			if (step == 6) {
+				GoHome();
+				Game.gamePanel.remove(this);
 //        	    System.out.println(GameManager.instance.PlayerList[GameManager.currentPlayer].horseList.size());    
-        	    GameManager.instance.PlayerList[GameManager.currentPlayer].HorseWin += 1;
-        	  
-        	    this.isWin = true;
-        	    
-        	    return;
-        	}
+				GameManager.instance.PlayerList[GameManager.currentPlayer].HorseWin += 1;
 
-            isOnStable = true;
-            StepCount += step;
-            PositionIndex = 56 + team * 6 + step;
-            setPosition(GameLoader.movePosList.get(PositionIndex));
-            return;
-        }
+				this.isWin = true;
 
-        if (StepCount < 55){
-            StepCount += step;
-            PositionIndex += step;
+				return;
+			}
 
-            if (PositionIndex > 55){
-             //   System.out.println("hello");
-                PositionIndex -= 56;
-            }
+			isOnStable = true;
+			StepCount += step;
+			PositionIndex = 56 + team * 6 + step;
+			setPosition(GameLoader.movePosList.get(PositionIndex));
+			return;
+		}
 
-            setPosition(GameLoader.movePosList.get(PositionIndex));
-            return;
-        }
-    }
+		if (StepCount < 55) {
+			StepCount += step;
+			PositionIndex += step;
 
-    public void Start(){
-        isOnBoard = true;
-        PositionIndex = team * 14;
-        Move(0);
+			if (PositionIndex > 55) {
+				// System.out.println("hello");
+				PositionIndex -= 56;
+			}
 
-        GameManager.instance.HorseOnBoard.add(this);
-    }
+			setPosition(GameLoader.movePosList.get(PositionIndex));
+			return;
+		}
+	}
 
-    public void Die(){
-        isOnBoard = false;
-        GoHome();
-        GameManager.instance.HorseOnBoard.remove(this);
-    }
+	public void Start() {
+		isOnBoard = true;
+		PositionIndex = team * 14;
+		Move(0);
 
-    public void GoHome(){
-        setPosition(new vector2(GameLoader.PlayerOriginPos[team].x + GameLoader.HorseBaseOffset[id].x * GameLoader.HorseSize, GameLoader.PlayerOriginPos[team].y + GameLoader.HorseBaseOffset[id].y * GameLoader.HorseSize));
-    }
+		GameManager.instance.HorseOnBoard.add(this);
+	}
 
-    public static int IndexAfterMove(Horse _horse, int step){
-        int indexAferterMove = _horse.PositionIndex + step;
-        if (indexAferterMove > 55){
-            return indexAferterMove - 56;
-        }
-        return indexAferterMove;
-    }   
+	public void Die() {
+		isOnBoard = false;
+		GoHome();
+		GameManager.instance.HorseOnBoard.remove(this);
+	}
+
+	public void GoHome() {
+		setPosition(new vector2(
+				GameLoader.PlayerOriginPos[team].x + GameLoader.HorseBaseOffset[id].x * GameLoader.HorseSize,
+				GameLoader.PlayerOriginPos[team].y + GameLoader.HorseBaseOffset[id].y * GameLoader.HorseSize));
+	}
+
+	public static int IndexAfterMove(Horse _horse, int step) {
+		int indexAferterMove = _horse.PositionIndex + step;
+		if (indexAferterMove > 55) {
+			return indexAferterMove - 56;
+		}
+		return indexAferterMove;
+	}
+
 }

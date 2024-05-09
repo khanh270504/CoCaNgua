@@ -6,6 +6,7 @@ public class GameManager {
 
 	Player[] PlayerList;
 	public static int currentPlayer = 0;
+	int temp;
 
 	public List<Horse> HorseOnBoard;
 
@@ -24,13 +25,18 @@ public class GameManager {
 //		PlayerList[0].horseList.get(3).Start();
 //		PlayerList[0].horseList.get(3).Move(55 - 18);
 
-//		PlayerList[1].horseList.get(0).Start();
-//		PlayerList[1].horseList.get(0).Move(55);
-
-//		PlayerList[0].horseList.get(0).Start();
-
-//		PlayerList[1].horseList.get(0).Start();
-
+//		PlayerList[0].horseList.get(1).Start();
+//		PlayerList[0].horseList.get(1).Move(6);
+//		PlayerList[0].horseList.get(2).Start();
+//		PlayerList[0].horseList.get(2).Move(12);
+//		PlayerList[0].horseList.get(3).Start();
+//		PlayerList[0].horseList.get(3).Move(8);
+//		PlayerList[0].horseList.get(1).Start();
+//		PlayerList[0].horseList.get(1).Move(55 - 6);
+//		PlayerList[0].horseList.get(2).Start();
+//		PlayerList[0].horseList.get(2).Move(55 - 12);
+//		PlayerList[0].horseList.get(3).Start();
+//		PlayerList[0].horseList.get(3).Move(55 - 18);
 	}
 
 	private void Init() {
@@ -62,16 +68,23 @@ public class GameManager {
 				int CheckCanMove = CheckHorseCanMove(horse);
 				if (CheckCanMove != -1) {
 					currentPlayer += 1;
-					if (currentPlayer == 4) {
-						currentPlayer = 0;
-					}
 
 					if (CheckCanMove == 1) {
 						horse.Move(dice.diceValue);
-						if (CheckCurrentPlayerWin()) {
-							PanelControl.WinGame();
 
-							// Next();
+						if (currentPlayer == 4) {
+							temp = 0;
+							if (CheckCurrentPlayerWin(temp)) {
+								PanelControl.WinGame();
+
+								// Next();
+							}
+						} else {
+							if (CheckCurrentPlayerWin(currentPlayer)) {
+								PanelControl.WinGame();
+
+								// Next();
+							}
 						}
 
 					} else {
@@ -84,6 +97,7 @@ public class GameManager {
 					}
 
 					dice.diceValue = 0;
+					currentPlayer %= 4;
 				}
 			} else {
 				if (CheckHorseCanStart(horse)) {
@@ -179,24 +193,27 @@ public class GameManager {
 
 	public void Next() {
 		currentPlayer += 1;
-		if (dice.diceValue == 6)
-			currentPlayer -= 1;
+//		if (dice.diceValue == 6)
+//			currentPlayer -= 1;
 		dice.diceValue = 0;
 
 		if (currentPlayer == 4) {
 			currentPlayer = 0;
 		}
 
-		if (CheckCurrentPlayerWin()) {
-			if (currentPlayer == 4) {
-				currentPlayer += 1;
-			}
-		}
+//		if (CheckCurrentPlayerWin()) {
+//			if (currentPlayer == 4) {
+//				currentPlayer += 1;
+//			}
+//		}
 
 		System.out.println("next");
 	}
 
-	public boolean CheckCurrentPlayerWin() {
-		return PlayerList[currentPlayer].HorseWin == 4;
+	public boolean CheckCurrentPlayerWin(int x) {
+		return PlayerList[x].HorseWin == 4;
 	}
+//	public boolean CheckCurrentPlayerWin() {
+//		return PlayerList[currentPlayer].HorseWin == 4;
+//	}
 }
