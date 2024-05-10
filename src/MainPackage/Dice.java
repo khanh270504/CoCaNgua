@@ -32,7 +32,6 @@ public class Dice extends JButton {
 				if (!isPlaying) {
 					PlayDice();
 					PanelControl.update();
-				
 
 				}
 			}
@@ -43,7 +42,7 @@ public class Dice extends JButton {
 
 	private void SetDiceValue(int value) {
 		setIcon(GameLoader.diceStatus[value - 1]);
-		diceValue = 6;
+		diceValue = value;
 	}
 
 	private int RandomDiceValue() {

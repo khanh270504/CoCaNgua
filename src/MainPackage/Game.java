@@ -1,4 +1,5 @@
 package MainPackage;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 
@@ -53,6 +54,10 @@ public class Game {
 	}
 
 	public static void ReStart() {
+		if (Win_Panel.check_null) {
+			Win_Panel.win.dispose();
+			Win_Panel.check_null = false;
+		}
 		window.dispose();
 		Start();
 	}
