@@ -36,7 +36,7 @@ public class PanelControl extends JPanel {
 
 	public PanelControl() {
 		jLabel_title = new JLabel("~~~~~THE CURRENT TURN~~~~~");
-		jLabel_turn = new JLabel("THE FIRST BLUE TEAM!");
+		jLabel_turn = new JLabel("THE FIRST'S BLUE TEAM!");
 		jLabel_turn.setFont(font);
 		jLabel_turn.setHorizontalAlignment(SwingConstants.CENTER);
 		jLabel_turn.setVerticalAlignment(SwingConstants.CENTER);

@@ -1,4 +1,5 @@
 package MainPackage;
+
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,113 +7,117 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+public class Horse extends JButton {
 
-public class Horse extends JButton{
-    
-    public int team;
-    public int id;
-    public vector2 Position;
-    public int PositionIndex;
-    
-    public int StepCount = 0;
-    public boolean isOnStable = false;
-    public boolean isWin = false;
-    public boolean isOnBoard = false;
+	public int team;
+	public int id;
+	public vector2 Position;
+	public int PositionIndex;
 
-    public Horse(String imageURL, int _team, int _id){
-        Position = new vector2(0, 0);
-        team = _team;
-        id = _id;
-        PositionIndex = 0;
+	public int StepCount = 0;
+	public boolean isOnStable = false;
+	public boolean isWin = false;
+	public boolean isOnBoard = false;
 
-        ImageIcon i = new ImageIcon(imageURL);
-        Image image = i.getImage();
-        Image scaledImage = image.getScaledInstance(GameLoader.HorseSize, GameLoader.HorseSize, Image.SCALE_SMOOTH);
-        setIcon(new ImageIcon(scaledImage));
+	public Horse(String imageURL, int _team, int _id) {
+		Position = new vector2(0, 0);
+		team = _team;
+		id = _id;
+		PositionIndex = 0;
 
-        
-        setBorderPainted(false);
-        setFocusPainted(false);
-        setContentAreaFilled(false);
+		ImageIcon i = new ImageIcon(imageURL);
+		Image image = i.getImage();
+		Image scaledImage = image.getScaledInstance(GameLoader.HorseSize, GameLoader.HorseSize, Image.SCALE_SMOOTH);
+		setIcon(new ImageIcon(scaledImage));
 
-        Game.gamePanel.add(this, new Integer(1));
+		setBorderPainted(false);
+		setFocusPainted(false);
+		setContentAreaFilled(false);
 
-        GoHome();
+		Game.gamePanel.add(this, new Integer(1));
 
-        this.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                OnClick();
-            }
-        });
-    }
+		GoHome();
 
-    public void OnClick(){
-        GameManager.instance.HorseSelected(this);
-    }
+		this.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				OnClick();
+				if (GameManager.getDice().diceValue != 6) {
+					PanelControl.update();
+				}
+			}
+		});
+	}
 
-    public void setPosition(vector2 newPos){
-        Position = newPos;
-        setBounds(Position.x - GameLoader.HorseSize/2, Position.y - GameLoader.HorseSize/2, GameLoader.HorseSize, GameLoader.HorseSize);
-    }
+	public void OnClick() {
+		GameManager.instance.HorseSelected(this);
+	}
 
-    public void Move(int step){
-        if (StepCount >= 55){
-        	if (step == 6) {
-        	   GoHome();
-        	   Game.gamePanel.remove(this);
+	public void setPosition(vector2 newPos) {
+		Position = newPos;
+		setBounds(Position.x - GameLoader.HorseSize / 2, Position.y - GameLoader.HorseSize / 2, GameLoader.HorseSize,
+				GameLoader.HorseSize);
+	}
+
+	public void Move(int step) {
+		if (StepCount >= 55) {
+			if (step == 6) {
+				GoHome();
+				Game.gamePanel.remove(this);
 //        	    System.out.println(GameManager.instance.PlayerList[GameManager.currentPlayer].horseList.size());    
-        	    GameManager.instance.PlayerList[GameManager.currentPlayer].HorseWin += 1;
-        	  
-        	    this.isWin = true;
-        	    
-        	    return;
-        	}
+				GameManager.instance.PlayerList[GameManager.currentPlayer].HorseWin += 1;
 
-            isOnStable = true;
-            StepCount += step;
-            PositionIndex = 56 + team * 6 + step;
-            setPosition(GameLoader.movePosList.get(PositionIndex));
-            return;
-        }
+				this.isWin = true;
 
-        if (StepCount < 55){
-            StepCount += step;
-            PositionIndex += step;
+				return;
+			}
 
-            if (PositionIndex > 55){
-             //   System.out.println("hello");
-                PositionIndex -= 56;
-            }
+			isOnStable = true;
+			StepCount += step;
+			PositionIndex = 56 + team * 6 + step;
+			setPosition(GameLoader.movePosList.get(PositionIndex));
+			return;
+		}
 
-            setPosition(GameLoader.movePosList.get(PositionIndex));
-            return;
-        }
-    }
+		if (StepCount < 55) {
+			StepCount += step;
+			PositionIndex += step;
 
-    public void Start(){
-        isOnBoard = true;
-        PositionIndex = team * 14;
-        Move(0);
+			if (PositionIndex > 55) {
+				// System.out.println("hello");
+				PositionIndex -= 56;
+			}
 
-        GameManager.instance.HorseOnBoard.add(this);
-    }
+			setPosition(GameLoader.movePosList.get(PositionIndex));
+			return;
+		}
+	}
 
-    public void Die(){
-        isOnBoard = false;
-        GoHome();
-        GameManager.instance.HorseOnBoard.remove(this);
-    }
+	public void Start() {
+		isOnBoard = true;
+		PositionIndex = team * 14;
+		Move(0);
 
-    public void GoHome(){
-        setPosition(new vector2(GameLoader.PlayerOriginPos[team].x + GameLoader.HorseBaseOffset[id].x * GameLoader.HorseSize, GameLoader.PlayerOriginPos[team].y + GameLoader.HorseBaseOffset[id].y * GameLoader.HorseSize));
-    }
+		GameManager.instance.HorseOnBoard.add(this);
+	}
 
-    public static int IndexAfterMove(Horse _horse, int step){
-        int indexAferterMove = _horse.PositionIndex + step;
-        if (indexAferterMove > 55){
-            return indexAferterMove - 56;
-        }
-        return indexAferterMove;
-    }   
+	public void Die() {
+		isOnBoard = false;
+		GoHome();
+		GameManager.instance.HorseOnBoard.remove(this);
+	}
+
+	public void GoHome() {
+		setPosition(new vector2(
+				GameLoader.PlayerOriginPos[team].x + GameLoader.HorseBaseOffset[id].x * GameLoader.HorseSize,
+				GameLoader.PlayerOriginPos[team].y + GameLoader.HorseBaseOffset[id].y * GameLoader.HorseSize));
+	}
+
+	public static int IndexAfterMove(Horse _horse, int step) {
+		int indexAferterMove = _horse.PositionIndex + step;
+		if (indexAferterMove > 55) {
+			return indexAferterMove - 56;
+		}
+		return indexAferterMove;
+	}
 }

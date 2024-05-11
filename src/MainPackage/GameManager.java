@@ -10,9 +10,7 @@ public class GameManager {
 	public static int currentPlayer = 0;
 
 	public List<Horse> HorseOnBoard;
-	public int PointWin = 0;
-	public static int Point = 0;
-	private Dice dice;
+	private static Dice dice;
 
 	public GameManager() {
 		instance = this;
@@ -56,7 +54,7 @@ public class GameManager {
 		InitDice();
 	}
 
-	private void InitDice() {
+	public static void InitDice() {
 		dice = new Dice();
 	}
 
@@ -86,7 +84,7 @@ public class GameManager {
 							Game.control.WinGame();
 
 						}
-						PointWin = 0;
+
 					} else {
 						KillHorse(Horse.IndexAfterMove(horse, dice.diceValue));
 						horse.Move(dice.diceValue);
@@ -178,7 +176,6 @@ public class GameManager {
 		boolean next = true;
 
 		for (Horse horse : PlayerList[currentPlayer].horseList) {
-
 			if (horse.isWin)
 				continue;
 			else {
@@ -208,11 +205,16 @@ public class GameManager {
 		if (currentPlayer == 4) {
 			currentPlayer = 0;
 		}
+		PanelControl.update();
 
 	}
 
 	public boolean CheckCurrentPlayerWin() {
 		return PlayerList[currentPlayer].HorseWin == 4;
+	}
+
+	public static Dice getDice() {
+		return dice;
 	}
 
 }

@@ -23,7 +23,8 @@ public class Dice extends JButton {
 
 		setBounds(275, 275, 50, 50);
 
-		PlayDice();
+//		PlayDice();
+		setIcon(GameLoader.diceStatus[1]);
 
 		addActionListener(new ActionListener() {
 
@@ -31,7 +32,6 @@ public class Dice extends JButton {
 			public void actionPerformed(ActionEvent e) {
 				if (!isPlaying) {
 					PlayDice();
-					PanelControl.update();
 
 				}
 			}

@@ -43,12 +43,14 @@ public class Game {
 		long currentTime = System.currentTimeMillis();
 		long lastTime = System.currentTimeMillis();
 		double t = 1000 / GameLoader.FPS;
-
 		while (true) {
 			currentTime = System.currentTimeMillis();
-			float deltaTime = currentTime - lastTime;
-			if (deltaTime < t)
+			double deltaTime = (currentTime - lastTime);
+			if (deltaTime < t) {
 				continue;
+
+			}
+
 			lastTime = currentTime;
 		}
 	}
