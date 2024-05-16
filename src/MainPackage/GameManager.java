@@ -16,36 +16,6 @@ public class GameManager {
 		instance = this;
 
 		Init();
-//
-//		PlayerList[0].horseList.get(0).Start();
-//		PlayerList[0].horseList.get(0).Move(0);
-//		PlayerList[1].horseList.get(0).Start();
-//		PlayerList[1].horseList.get(0).Move(0);
-//		PlayerList[2].horseList.get(0).Start();
-//		PlayerList[2].horseList.get(0).Move(0);
-//		PlayerList[3].horseList.get(0).Start();
-//		PlayerList[3].horseList.get(0).Move(55);
-//	
-//	PlayerList[0].horseList.get(1).Start();
-//	PlayerList[0].horseList.get(1).Move(3);
-//	PlayerList[0].horseList.get(2).Start();
-//	PlayerList[0].horseList.get(2).Move(15);
-//	PlayerList[0].horseList.get(3).Start();
-//	PlayerList[0].horseList.get(3).Move(9);
-//	
-//	PlayerList[1].horseList.get(1).Start();
-//	PlayerList[1].horseList.get(1).Move(5);
-//	PlayerList[1].horseList.get(2).Start();
-//	PlayerList[1].horseList.get(2).Move(12);
-//	PlayerList[1].horseList.get(3).Start();
-//	PlayerList[1].horseList.get(3).Move(6);
-//	
-//	PlayerList[2].horseList.get(1).Start();
-//	PlayerList[2].horseList.get(1).Move(55 - 14 * 2 - 3);
-//	PlayerList[2].horseList.get(2).Start();
-//	PlayerList[2].horseList.get(2).Move(12);
-//	PlayerList[3].horseList.get(2).Start();
-//	PlayerList[3].horseList.get(2).Move(12);
 	}
 
 	private void Init() {
@@ -56,6 +26,7 @@ public class GameManager {
 
 	public static void InitDice() {
 		dice = new Dice();
+
 	}
 
 	private void InitPlayerList() {
@@ -216,5 +187,4 @@ public class GameManager {
 	public static Dice getDice() {
 		return dice;
 	}
-
 }

@@ -50,6 +50,7 @@ public class Horse extends JButton {
 	}
 
 	public void OnClick() {
+
 		GameManager.instance.HorseSelected(this);
 	}
 
@@ -64,7 +65,6 @@ public class Horse extends JButton {
 			if (step == 6) {
 				GoHome();
 				Game.gamePanel.remove(this);
-//        	    System.out.println(GameManager.instance.PlayerList[GameManager.currentPlayer].horseList.size());    
 				GameManager.instance.PlayerList[GameManager.currentPlayer].HorseWin += 1;
 
 				this.isWin = true;
@@ -84,7 +84,6 @@ public class Horse extends JButton {
 			PositionIndex += step;
 
 			if (PositionIndex > 55) {
-				// System.out.println("hello");
 				PositionIndex -= 56;
 			}
 

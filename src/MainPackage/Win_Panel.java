@@ -60,10 +60,9 @@ public class Win_Panel extends JFrame {
 		gbc.weighty = 0.4;
 		panel.add(imageLabel, gbc);
 
-		JLabel jLabel_quesEnd = new JLabel("Select 1 of the 2 buttons below");
+		JLabel jLabel_quesEnd = new JLabel("Choose 1 of the 2 buttons below");
 		jLabel_quesEnd.setHorizontalAlignment(SwingConstants.CENTER);
 		jLabel_quesEnd.setVerticalAlignment(SwingConstants.CENTER);
-//		jLabel_quesEnd.setFont(font);
 		gbc.gridx = 0;
 		gbc.gridy = 3;
 		gbc.weightx = 1;
@@ -95,7 +94,4 @@ public class Win_Panel extends JFrame {
 		check_null = true;
 	}
 
-//	public static void main(String[] args) {
-//		Win_Panel panel = new Win_Panel("RED TEAM WIN", Color.RED);
-//	}
 }

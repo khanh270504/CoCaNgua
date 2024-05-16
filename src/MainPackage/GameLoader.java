@@ -9,8 +9,6 @@ import java.util.Scanner;
 import javax.swing.ImageIcon;
 
 public class GameLoader {
-	public static int FPS = 60;
-
 	public static int Scale = 1;
 
 	public static int WIDTH = 600;
@@ -54,11 +52,9 @@ public class GameLoader {
 			File file = new File("resources/data/toado.txt");
 			Scanner scanner = new Scanner(file);
 
-			// Đọc số hàng và số cột từ file
 			int rows = scanner.nextInt();
 			int columns = scanner.nextInt();
 
-			// Đọc dữ liệu từ file và gán vào mảng
 			for (int i = 0; i < rows; i++) {
 				vector2 v = new vector2(scanner.nextInt(), scanner.nextInt());
 				movePosList.add(v);
@@ -87,13 +83,5 @@ public class GameLoader {
 				StableList[i - 1][j - 1] = movePosList.get(56 + ((i - 1) * 6 - 1 + j));
 			}
 		}
-
-//        for (int i = 1; i <= 4; i++){
-//            for (int j = 1; j <= 6; j++){
-//            	System.out.println(StableList[i - 1][j - 1].x + " " + StableList[i - 1][j - 1].y);
-//
-//            }
-//            System.out.println();
-//            }
 	}
 }

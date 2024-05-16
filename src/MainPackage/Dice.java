@@ -8,7 +8,6 @@ import javax.swing.JButton;
 import javax.swing.Timer;
 
 public class Dice extends JButton {
-	private float count = 0;
 	private Timer time;
 
 	public int diceValue = 0;
@@ -53,12 +52,15 @@ public class Dice extends JButton {
 	}
 
 	private void PlayDice() {
+
 		if (diceValue != 0)
 			return;
 
 		isPlaying = true;
 
 		time = new Timer(100, new ActionListener() {
+			float count = 0;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				RandomDiceValue();
